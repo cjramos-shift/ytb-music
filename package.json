@@ -1,0 +1,27 @@
+{
+  "name": "ytb-music",
+  "version": "1.0.0",
+  "description": "A Youtube Music project implemented using HTML, CSS, JS, and Electron",
+  "keywords": [
+    "youtube",
+    "music",
+    "ytb-music",
+    "player"
+  ],
+  "homepage": "https://github.com/cjramos-shift/ytb-music#readme",
+  "bugs": {
+    "url": "https://github.com/cjramos-shift/ytb-music/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjramos-shift/ytb-music.git"
+  },
+  "license": "ISC",
+  "author": "Claudio",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
