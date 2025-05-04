@@ -1,0 +1,40 @@
+<div id="player"></div>
+
+<script> 
+  const videoId = sessionStorage.getItem("videoKey"); // Add your video IDs here
+  let currentIndex = 0;
+  let player;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '100',
+      width: '300',
+      videoId: videoId,
+      playerVars: {
+        'playsinline': 1,
+        'autoplay': 1,
+        'controls': 1
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      player.loadVideoById(playlist[currentIndex]);
+    }
+  }
+
+  // Load the YouTube IFrame API
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  document.body.appendChild(tag);
+</script>

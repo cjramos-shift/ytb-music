@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Playlist Music</title>
+</head>
+<body>
+  <h1>My PlayList</h1>
+  <ul id="video-list"></ul>
+
+  <script>
+    const apiKey = 'AIzaSyCzNQtC_u8RF5jwThuiIukI2y6tNKv8Hb8'; // Replace with your API key
+    const playlistId = 'PLGLlHNM9hxNitZXZHjLqnNhAd4FgbVqbo'; // Replace with your playlist ID
+    const maxResults = 50; // Max is 50 per request
+
+    async function fetchPlaylistVideos(pageToken = '') {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=${maxResults}&key=${apiKey}&pageToken=${pageToken}`;
+      
+      const response = await fetch(url);
+      const data = await response.json();
+
+      data.items.forEach(item => {
+        const title = item.snippet.title;
+        const videoId = item.snippet.resourceId.videoId;
+        var thumbnailUrl = "";
+        var thumbnailWidth = 60;
+
+        try {
+         thumbnailUrl = item.snippet.thumbnails.default.url;
+        //  thumbnailWidth = item.snippet.thumbnails.default.width;
+        } catch (error) {
+          console.error('Thumbnail not founded, error:', error);
+        }
+
+        const li = document.createElement('li');
+        li.innerHTML = `<image src="${thumbnailUrl}" width="${thumbnailWidth}" /> <h3>${title}</h3> <button onclick="playVideo('${videoId}')">Play</button>`;
+        // li.innerHTML = `<a href="https://music.youtube.com/watch?v=${videoId}">${title}</a>`;
+        document.getElementById('video-list').appendChild(li);
+      });
+
+      // If there is a next page, fetch more
+      if (data.nextPageToken) {
+        fetchPlaylistVideos(data.nextPageToken);
+      }
+    }
+
+    function playVideo(videoId) {
+      sessionStorage.setItem("videoKey", videoId);
+      window.location.href = "./player/player.html";
+    }
+
+    fetchPlaylistVideos();
+  </script>
+</body>
+</html>
